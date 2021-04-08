@@ -11,17 +11,19 @@ class AssistantMethods
   {
     String placeAddress = "";
     String st1, st2, st3, st4;
-    String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}}&key=$mapKey";
+    String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
+    print(position.latitude);
+    print(position.longitude);
 
     var response = await RequestAssistant.getRequest(url);
-
+    print(response);
     if(response != "failed")
     {
       //placeAddress = response["results"][0]["formatted_address"];
-      st1 = placeAddress = response["results"][0]["address_components"][3]["long"];
-      st2 = placeAddress = response["results"][0]["address_components"][4]["long"];
-      st3 = placeAddress = response["results"][0]["address_components"][5]["long"];
-      st4 = placeAddress = response["results"][0]["address_components"][6]["long"];
+      st1 = placeAddress = response["results"][0]["address_components"][0]["long_name"];
+      st2 = placeAddress = response["results"][0]["address_components"][1]["long_name"];
+      st3 = placeAddress = response["results"][0]["address_components"][2]["long_name"];
+      st4 = placeAddress = response["results"][0]["address_components"][3]["long_name"];
       placeAddress = st1 + ", " + st2 + ", " + st3 + ", " + st4;
 
       Address userPickUpAddress = new Address();
