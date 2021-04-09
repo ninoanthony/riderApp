@@ -17,8 +17,8 @@ class AssistantMethods
     String placeAddress = "";
     String st1, st2, st3, st4;
     String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
-    print(position.latitude);
-    print(position.longitude);
+    //print(position.latitude);
+   // print(position.longitude);
 
     var response = await RequestAssistant.getRequest(url);
     print(response);
