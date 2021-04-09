@@ -5,8 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rider_app/AllScreens/searchScreen.dart';
 import 'package:rider_app/AllWidgets/Divider.dart';
+import 'package:rider_app/AllWidgets/progressDialog.dart';
 import 'package:rider_app/Assistants/assistantMethods.dart';
 import 'package:rider_app/DataHandler/appData.dart';
+
 
 
 class MainScreen extends StatefulWidget
@@ -190,9 +192,14 @@ class _MainScreenState extends State<MainScreen>
                     Text("Where to?", style: TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),),
                     SizedBox(height: 20.0),
                     GestureDetector(
-                      onTap: ()
+                      onTap: () async
                       {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen()));
+                        var res = await Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen()));
+
+                        if(res == "obtainDirection")
+                        {
+                          await getPlaceDirection();
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -222,17 +229,20 @@ class _MainScreenState extends State<MainScreen>
                       children: [
                         Icon(Icons.home, color: Colors.grey,),
                         SizedBox(width: 12.0,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Provider.of<AppData>(context).pickUpLocation !=null
-                                  ? Provider.of<AppData>(context).pickUpLocation.placeName
-                                  : "Add Home"
-                            ),
-                            SizedBox(height: 4.0,),
-                            Text("Your living home address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Provider.of<AppData>(context).pickUpLocation !=null
+                                    ? Provider.of<AppData>(context).pickUpLocation.placeName
+                                    : "Add Home",
+                              overflow: TextOverflow.ellipsis,      
+                              ),
+                              SizedBox(height: 4.0,),
+                              Text("Your living home address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -265,5 +275,26 @@ class _MainScreenState extends State<MainScreen>
         ],
       )
     );
+  }
+
+  Future<void> getPlaceDirection() async
+  {
+    var initialPos = Provider.of<AppData>(context, listen: false).pickUpLocation;
+    var finalPos = Provider.of<AppData>(context, listen: false).dropOffLocation;
+
+    var pickUpLatLng = LatLng(initialPos.latitude, initialPos.longitude);
+    var dropOffLatLng = LatLng(finalPos.latitude, finalPos.longitude);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ProgressDialog(message: "Please wait...",)
+    );
+
+    var details = await AssistantMethods.obtainPlaceDirectionDetails(pickUpLatLng, dropOffLatLng);
+
+    Navigator.pop(context);
+
+    print("This is Encoded Points ::");
+    print(details.encodedPoints);
   }
 }
