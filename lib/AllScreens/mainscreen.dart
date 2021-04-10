@@ -44,6 +44,27 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   double rideDetailsContainerHeight = 0;
   double searchContainerHeight = 300.0;
 
+  bool drawerOpen = true;
+
+
+  resetApp()
+  {
+    setState(() {
+      drawerOpen = true;
+
+      searchContainerHeight = 300.0;
+      rideDetailsContainerHeight = 0;
+      bottomPaddingOfMap = 230.0;
+
+      polylineSet.clear();
+      markersSet.clear();
+      circlesSet.clear();
+      pLineCoordinates.clear();
+    });
+
+    locatePosition();
+  }
+
   void displayRideDetailsContainer() async
   {
     await getPlaceDirection();
@@ -52,6 +73,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       searchContainerHeight = 0;
       rideDetailsContainerHeight = 240.0;
       bottomPaddingOfMap = 230.0;
+      drawerOpen = false;
 
     });
   }
@@ -162,12 +184,19 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
           //HamburgerButton for Drawer
           Positioned(
-            top: 45.0,
+            top: 38.0,
             left: 22.0,
             child: GestureDetector(
               onTap: ()
               {
-                scaffoldKey.currentState.openDrawer();
+                if(drawerOpen)
+                {
+                  scaffoldKey.currentState.openDrawer();
+                }
+                else
+                {
+                  resetApp();
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -187,7 +216,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 ),
                 child: CircleAvatar(
                   backgroundColor: Colors. white,
-                  child: Icon(Icons.menu),
+                  child: Icon((drawerOpen) ? Icons.menu : Icons.close,  color: Colors.black,),
                   radius: 20.0,
                 )
               ),
