@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:rider_app/AllScreens/loginScreen.dart';
 import 'package:rider_app/AllScreens/searchScreen.dart';
 import 'package:rider_app/AllWidgets/Divider.dart';
+import 'package:rider_app/AllWidgets/noDriverAvailableDialog.dart';
 import 'package:rider_app/AllWidgets/progressDialog.dart';
 import 'package:rider_app/Assistants/assistantMethods.dart';
 import 'package:rider_app/Assistants/geoFireAssistant.dart';
@@ -19,6 +20,8 @@ import 'package:rider_app/DataHandler/appData.dart';
 import 'package:rider_app/Models/directDetails.dart';
 import 'package:rider_app/Models/nearbyAvailableDrivers.dart';
 import 'package:rider_app/configMaps.dart';
+import 'package:rider_app/main.dart';
+
 
 
 
@@ -59,6 +62,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   DatabaseReference rideRequestRef;
 
   BitmapDescriptor nearByIcon;
+
+  List<NearbyAvailableDrivers> availableDrivers;
+
+  String state = "normal";
 
   @override
   void initState() {
@@ -106,8 +113,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   void cancelRideRequest()
   {
     rideRequestRef.remove();
-
-
+    setState(() {
+      state = "normal";
+    });
   }
 
   void displayRequestRideContainer()
@@ -509,7 +517,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                         child: RaisedButton(
                           onPressed: ()
                           {
+                            setState(() {
+                              state = "requesting";
+                            });
                             displayRequestRideContainer();
+                            availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
+                            searchNearestDriver();
                           },
                           color: Theme.of(context).accentColor,
                           child: Padding(
@@ -817,5 +830,79 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
         nearByIcon = value;
       });
     }
+  }
+
+  void noDriverFound()
+  {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => NoDriverAvailableDialog()
+    );
+  }
+
+  void searchNearestDriver()
+  {
+    if(availableDrivers.length == 0)
+    {
+      cancelRideRequest();
+      resetApp();
+      noDriverFound();
+      return;
+    }
+
+    var driver = availableDrivers[0];
+    notifyDriver(driver);
+    availableDrivers.removeAt(0);
+  }
+
+  void notifyDriver(NearbyAvailableDrivers driver)
+  {
+    driversRef.child(driver.key).child("newRide").set(rideRequestRef.key);
+
+    driversRef.child(driver.key).child("token").once().then((DataSnapshot snap){
+      if(snap.value != null)
+      {
+        String token = snap.value.toString();
+        AssistantMethods.sendNotificationToDriver(token, context, rideRequestRef.key);
+      }
+      else
+      {
+        return;
+      }
+
+      const oneSecondPassed = Duration(seconds: 1);
+      var timer = Timer.periodic(oneSecondPassed, (timer) {
+        if(state != "requesting")
+        {
+          driversRef.child(driver.key).child("newRide").set("cancelled");
+          driversRef.child(driver.key).child("newRide").onDisconnect();
+          driverRequestTimeout = 40;
+          timer.cancel();
+
+        }
+
+        driverRequestTimeout = driverRequestTimeout - 1;
+
+        driversRef.child(driver.key).child("newRide").onValue.listen((event) {
+          if(event.snapshot.value.toString() == "accepted")
+          {
+            driversRef.child(driver.key).child("newRide").onDisconnect();
+            driverRequestTimeout = 40;
+            timer.cancel();
+          }
+        });
+
+        if(driverRequestTimeout == 0)
+        {
+          driversRef.child(driver.key).child("newRide").set("timeout");
+          driversRef.child(driver.key).child("newRide").onDisconnect();
+          driverRequestTimeout = 40;
+          timer.cancel();
+
+          searchNearestDriver();
+        }
+      });
+    });
   }
 }
