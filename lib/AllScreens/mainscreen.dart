@@ -368,7 +368,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Profile Name", style: TextStyle(fontSize: 16.0, fontFamily: "Brand-Bol"),),
+                          Text("Profile Name", style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
                           SizedBox(height: 6.0,),
                           Text("Visit Profile"),
                         ],

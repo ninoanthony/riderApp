@@ -23,7 +23,7 @@ class NoDriverAvailableDialog extends StatelessWidget {
               children: [
                 SizedBox(height: 10,),
 
-                Text('No driver found', style: TextStyle(fontSize: 22.0, fontFamily: 'Brand-Bold'),),
+                Text('No driver found', style: TextStyle(fontSize: 22.0, fontFamily: 'Brand Bold'),),
 
                 SizedBox(height: 25,),
 
