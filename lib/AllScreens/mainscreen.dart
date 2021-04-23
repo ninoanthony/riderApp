@@ -9,7 +9,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:rider_app/AllScreens/HistoryScreen.dart';
+import 'package:rider_app/AllScreens/aboutScreen.dart';
 import 'package:rider_app/AllScreens/loginScreen.dart';
+import 'package:rider_app/AllScreens/profileTabPage.dart';
 import 'package:rider_app/AllScreens/ratingScreen.dart';
 import 'package:rider_app/AllScreens/searchScreen.dart';
 import 'package:rider_app/AllWidgets/CollectFareDialog.dart';
@@ -74,6 +77,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   StreamSubscription<Event> rideStreamSubscription;
 
   bool isRequestingPositionDetails = false;
+
+  String uName="";
 
   @override
   void initState() {
@@ -338,6 +343,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
     initGeoFireListener();
 
+    uName = userCurrentInfo.name;
+
+    AssistantMethods.retrieveHistoryInfo(context);
+
+
+
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -360,7 +371,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               Container(
                 height: 165.0,
                 child: DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: Colors.deepOrangeAccent ),
                   child:  Row(
                     children: [
                       Image.asset("images/user_icon.png", height: 65.0, width: 65.0,),
@@ -368,9 +379,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Profile Name", style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
+                          Text(uName, style: TextStyle(fontSize: 9.0, fontFamily: "Brand Bold"),),
                           SizedBox(height: 6.0,),
-                          Text("Visit Profile"),
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileTabPage()));
+                            },
+                            child: Text(
+                                "Visit Profile"
+                            ),
+                          ),
                         ],
                       )
                     ],
@@ -383,17 +402,35 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               SizedBox(height: 12.0,),
 
               //Drawer Body Controllers
-              ListTile(
-                leading: Icon(Icons.history),
-                title: Text("History", style: TextStyle(fontSize: 15.0),),
+              GestureDetector(
+                onTap: ()
+                {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> HistoryScreen()));
+                },
+                child: ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text("History", style: TextStyle(fontSize: 15.0),),
+                ),
               ),
               ListTile(
                 leading: Icon(Icons.person),
-                title: Text("Visit Profile", style: TextStyle(fontSize: 15.0),),
+                title: GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileTabPage()));
+                    },
+                    child: Text("Visit Profile", style: TextStyle(fontSize: 15.0),)
+                ),
               ),
-              ListTile(
-                leading: Icon(Icons.info),
-                title: Text("About", style: TextStyle(fontSize: 15.0),),
+              GestureDetector(
+                onTap: ()
+                {
+                  Navigator.pushNamedAndRemoveUntil(context, AboutScreen.idScreen, (route) => false);
+                },
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text("About", style: TextStyle(fontSize: 15.0),),
+                ),
               ),
               GestureDetector(
                 onTap: ()
@@ -402,7 +439,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                   Navigator.pushNamedAndRemoveUntil(context, LoginScreen.idScreen, (route) => false);
                 },
                 child: ListTile(
-                  leading: Icon(Icons.info),
+                  leading: Icon(Icons.logout),
                   title: Text("Sign Out", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
@@ -506,7 +543,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 6.0),
-                      Text("Hi there, ", style: TextStyle(fontSize:  12.0),),
+                      Text('\Hi there, ${uName}!', style: TextStyle(fontSize:  12.0),),
+
                       Text("Where to?", style: TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),),
                       SizedBox(height: 20.0),
 
@@ -537,7 +575,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               children: [
-                                Icon(Icons.search, color: Colors.blueAccent,),
+                                Icon(Icons.search, color: Colors.deepOrangeAccent,),
                                 SizedBox(width: 10.0,),
                                 Text("Search Drop Off"),
                               ],
@@ -549,7 +587,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       SizedBox(height: 24.0),
                       Row(
                         children: [
-                          Icon(Icons.home, color: Colors.grey,),
+                          Icon(Icons.home, color: Colors.deepOrangeAccent,),
                           SizedBox(width: 12.0,),
                           Expanded(
                             child: Column(
@@ -577,7 +615,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
                       Row(
                         children: [
-                          Icon(Icons.work, color: Colors.grey,),
+                          Icon(Icons.work, color: Colors.deepOrangeAccent,),
                           SizedBox(width: 12.0,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

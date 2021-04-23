@@ -35,7 +35,7 @@ class CollectFareDialog extends StatelessWidget
 
             SizedBox(height: 16.0,),
 
-            Text("\$$fareAmount", style: TextStyle(fontSize: 55.0, fontFamily: "Brand Bold"),),
+            Text("\₱$fareAmount", style: TextStyle(fontSize: 55.0, fontFamily: "Brand Bold"),),
 
             SizedBox(height: 16.0,),
 
