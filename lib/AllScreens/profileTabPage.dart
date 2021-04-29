@@ -10,7 +10,7 @@ class ProfileTabPage extends StatelessWidget {
   Widget build(BuildContext context)
   {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.lightBlue,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,4 @@
-class NearbyAvailableDrivers
+ class NearbyAvailableDrivers
 {
   String key;
   double latitude;

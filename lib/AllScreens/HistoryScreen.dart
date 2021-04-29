@@ -4,6 +4,7 @@ import 'package:rider_app/AllWidgets/HistoryItem.dart';
 import 'package:rider_app/DataHandler/appData.dart';
 
 
+
 class HistoryScreen extends StatefulWidget {
   @override
   _HistoryScreenState createState() => _HistoryScreenState();
@@ -18,9 +19,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
       appBar: AppBar(
         title: Text('Trip History'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.lightBlue,
         leading: IconButton(
           onPressed: (){
+            makeHistoryDelete();
             Navigator.pop(context);
           },
           icon: Icon(Icons.keyboard_arrow_left),
@@ -43,4 +45,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     );
   }
+  void makeHistoryDelete()
+  {
+    int len = Provider.of<AppData>(context, listen: false).tripHistoryDataList.length;
+    Provider.of<AppData>(context, listen: false).tripHistoryDataList.removeRange(0,len);
+
+  }
+
 }

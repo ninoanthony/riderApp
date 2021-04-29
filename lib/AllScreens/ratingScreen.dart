@@ -50,7 +50,7 @@ class _RatingScreenState extends State<RatingScreen> {
 
               SmoothStarRating(
                 rating: starCounter,
-                color: Colors.green,
+                color: Colors.lightBlue,
                 allowHalfRating: false,
                 starCount: 5,
                 size: 45,
@@ -93,7 +93,7 @@ class _RatingScreenState extends State<RatingScreen> {
 
               SizedBox(height: 14.0,),
 
-              Text(title, style: TextStyle(fontSize: 55.0, fontFamily: "Signatra", color: Colors.green),),
+              Text(title, style: TextStyle(fontSize: 55.0, fontFamily: "Signatra", color: Colors.blue),),
 
               SizedBox(height: 16.0,),
 
@@ -126,7 +126,7 @@ class _RatingScreenState extends State<RatingScreen> {
 
                     Navigator.pop(context);
                   },
-                  color: Colors.green,
+                  color: Colors.lightBlue,
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Row(

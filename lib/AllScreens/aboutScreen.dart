@@ -13,7 +13,7 @@ class _MyAboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue,
         body: ListView(
           children: <Widget>[
             Container(
@@ -29,7 +29,7 @@ class _MyAboutScreenState extends State<AboutScreen> {
                   Text(
                     'Ride Tricycle App',
                     style: TextStyle(
-                        fontSize: 40, fontFamily: 'Signatra'),
+                        fontSize: 40, fontFamily: 'Signatra',color: Colors.white60),
                   ),
                   SizedBox(height: 30),
                   Text(
@@ -54,7 +54,7 @@ class _MyAboutScreenState extends State<AboutScreen> {
                 child: const Text(
                     'Go Back',
                     style: TextStyle(
-                        fontSize: 18, color: Colors.black
+                        fontSize: 18, color: Colors.white
                     )
                 ),
                 shape: RoundedRectangleBorder(

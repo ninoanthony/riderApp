@@ -63,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen>
                       ),
 
                       Center(
-                        child: Text("Set Drop Off", style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),),
+                        child: Text("Set Drop Off", style: TextStyle(fontSize: 18.0, color: Colors.lightBlue, fontFamily: "Brand Bold"),),
                       ),
                     ],
                   ),

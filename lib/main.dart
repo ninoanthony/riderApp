@@ -7,7 +7,9 @@ import 'package:rider_app/AllScreens/aboutScreen.dart';
 import 'package:rider_app/AllScreens/loginScreen.dart';
 import 'package:rider_app/AllScreens/mainscreen.dart';
 import 'package:rider_app/AllScreens/registrationScreen.dart';
+import 'package:rider_app/AllScreens/welcomeScreen.dart';
 import 'package:rider_app/DataHandler/appData.dart';
+
 
 void main() async
 {
@@ -33,9 +35,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: FirebaseAuth.instance.currentUser == null ? LoginScreen.idScreen : MainScreen.idScreen,
+        initialRoute: FirebaseAuth.instance.currentUser == null ? WelcomeScreen.idScreen : MainScreen.idScreen,
         routes:
         {
+          WelcomeScreen.idScreen: (context) => WelcomeScreen(),
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),
           MainScreen.idScreen: (context) => MainScreen(),

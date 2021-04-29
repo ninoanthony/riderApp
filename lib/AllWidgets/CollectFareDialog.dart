@@ -35,7 +35,7 @@ class CollectFareDialog extends StatelessWidget
 
             SizedBox(height: 16.0,),
 
-            Text("\₱$fareAmount", style: TextStyle(fontSize: 55.0, fontFamily: "Brand Bold"),),
+            Text("\Php $fareAmount", style: TextStyle(fontSize: 55.0, fontFamily: "Brand Bold"),),
 
             SizedBox(height: 16.0,),
 
@@ -53,7 +53,7 @@ class CollectFareDialog extends StatelessWidget
                 {
                   Navigator.pop(context, "close");
                 },
-                color: Colors.deepPurpleAccent,
+                color: Colors.lightBlue,
                 child: Padding(
                   padding: EdgeInsets.all(17.0),
                   child: Row(

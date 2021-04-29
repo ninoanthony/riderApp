@@ -31,6 +31,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 
+
 class MainScreen extends StatefulWidget
 {
   static const String idScreen = "mainScreen";
@@ -371,7 +372,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               Container(
                 height: 165.0,
                 child: DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.deepOrangeAccent ),
+                  decoration: BoxDecoration(color: Colors.lightBlue),
                   child:  Row(
                     children: [
                       Image.asset("images/user_icon.png", height: 65.0, width: 65.0,),
@@ -379,7 +380,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(uName, style: TextStyle(fontSize: 9.0, fontFamily: "Brand Bold"),),
+                          Text(uName, style: TextStyle(fontSize: 12.0, color: Colors.white, fontFamily: "Brand Bold"),),
                           SizedBox(height: 6.0,),
                           GestureDetector(
                             onTap: ()
@@ -408,12 +409,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> HistoryScreen()));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.history),
+                  leading: Icon(Icons.history, color: Colors.lightBlue,),
                   title: Text("History", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.person),
+                leading: Icon(Icons.person, color: Colors.lightBlue,),
                 title: GestureDetector(
                     onTap: ()
                     {
@@ -428,7 +429,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                   Navigator.pushNamedAndRemoveUntil(context, AboutScreen.idScreen, (route) => false);
                 },
                 child: ListTile(
-                  leading: Icon(Icons.info),
+                  leading: Icon(Icons.info, color: Colors.lightBlue,),
                   title: Text("About", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
@@ -439,7 +440,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                   Navigator.pushNamedAndRemoveUntil(context, LoginScreen.idScreen, (route) => false);
                 },
                 child: ListTile(
-                  leading: Icon(Icons.logout),
+                  leading: Icon(Icons.logout, color: Colors.lightBlue,),
                   title: Text("Sign Out", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
@@ -507,7 +508,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 ),
                 child: CircleAvatar(
                   backgroundColor: Colors. white,
-                  child: Icon((drawerOpen) ? Icons.menu : Icons.close,  color: Colors.black,),
+                  child: Icon((drawerOpen) ? Icons.menu : Icons.close,  color: Colors.lightBlue,),
                   radius: 20.0,
                 )
               ),
@@ -543,7 +544,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 6.0),
-                      Text('\Hi there, ${uName}!', style: TextStyle(fontSize:  12.0),),
+                      Text('\Hi there, ${uName}!', style: TextStyle(fontSize: 14.0, color: Colors.lightBlue),),
 
                       Text("Where to?", style: TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),),
                       SizedBox(height: 20.0),
@@ -575,7 +576,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               children: [
-                                Icon(Icons.search, color: Colors.deepOrangeAccent,),
+                                Icon(Icons.search, color: Colors.lightBlue,),
                                 SizedBox(width: 10.0,),
                                 Text("Search Drop Off"),
                               ],
@@ -587,7 +588,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       SizedBox(height: 24.0),
                       Row(
                         children: [
-                          Icon(Icons.home, color: Colors.deepOrangeAccent,),
+                          Icon(Icons.home, color: Colors.lightBlue,),
                           SizedBox(width: 12.0,),
                           Expanded(
                             child: Column(
@@ -615,7 +616,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
                       Row(
                         children: [
-                          Icon(Icons.work, color: Colors.deepOrangeAccent,),
+                          Icon(Icons.work, color: Colors.lightBlue,),
                           SizedBox(width: 12.0,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
